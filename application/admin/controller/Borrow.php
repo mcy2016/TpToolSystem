@@ -16,6 +16,9 @@ class Borrow extends Common
 
     }
 
+    /**
+     * @return array
+     */
     public function getBoUser(){
         $request = Request::instance();
         $borrowReturnModel = model('BorrowReturn');

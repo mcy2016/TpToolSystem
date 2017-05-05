@@ -19,6 +19,7 @@ class User extends Common
 
     public function getByUjn()
     {
+
         $request = Request::instance();
         $userModel = model('User');
         $param['u_jn']=$request->param('jobNumber');

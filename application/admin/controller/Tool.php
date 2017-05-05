@@ -15,6 +15,9 @@ class Tool extends Common
 {
     public function index()
     {
+//        header('Access-Control-Allow-Origin: *');
+//        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+//        header('Access-Control-Allow-Methods: GET, POST, PUT');
         $toolModel = model("Tool");
         $data = $toolModel->getDataList();
         if (!$data) {
@@ -25,6 +28,9 @@ class Tool extends Common
 
     public function getByName()
     {
+//        header('Access-Control-Allow-Origin: *');
+//        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+//        header('Access-Control-Allow-Methods: GET, POST, PUT');
         $request = Request::instance();
         $toolModel = model("Tool");
         $param['keywords'] = $request->param('keywords');
@@ -61,6 +67,9 @@ class Tool extends Common
      */
     public function getToolByBd()
     {
+//        header('Access-Control-Allow-Origin: *');
+//        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+//        header('Access-Control-Allow-Methods: GET, POST, PUT');
         $request = Request::instance();
         $toolModel = model("Tool");
         $param['tl_barcode'] = $request->param('tiaoma');
@@ -76,6 +85,9 @@ class Tool extends Common
      */
     public function insertBorrow()
     {
+//        header('Access-Control-Allow-Origin: *');
+//        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+//        header('Access-Control-Allow-Methods: GET, POST, PUT');
         $request = Request::instance();
         $borrowModel = model('Borrow');
         $borrowReturnModel = model('BorrowReturn');
@@ -125,6 +137,9 @@ class Tool extends Common
 
     public function returnTool()
     {
+//        header('Access-Control-Allow-Origin: *');
+//        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+//        header('Access-Control-Allow-Methods: GET, POST, PUT');
         $request = Request::instance();
         $borrowReturnModel = model('BorrowReturn');
         $toolModel = model("Tool");
@@ -152,7 +167,6 @@ class Tool extends Common
 
         }
         return resultArray(['data' => '归还成功']);
-
     }
 
     public function object_array($array)

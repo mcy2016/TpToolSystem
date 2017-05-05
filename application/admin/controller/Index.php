@@ -9,3 +9,5 @@ class Index extends Common
         return "这是admin模块";
     }
 }
+
+require "";
