@@ -16,6 +16,5 @@ class Test
     public function aaa()
     {
         Request::instance();
-        f
     }
 }

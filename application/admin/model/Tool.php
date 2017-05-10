@@ -58,5 +58,14 @@ class Tool extends Model
         return $data;
     }
 
-
+    //更新工具的预约状态
+    public function updateSubscribe($id='',$value=''){
+        $tool=new Tool();
+        $data=$tool->where('tl_barcode','=',$id)
+            ->find();
+        $data->tl_issubscribe=$value;
+        $data->tl_status=-10;
+        $rs=$data->save();
+        return $rs;
+    }
 }

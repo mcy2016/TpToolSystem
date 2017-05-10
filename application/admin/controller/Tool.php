@@ -92,6 +92,7 @@ class Tool extends Common
         $borrowModel = model('Borrow');
         $borrowReturnModel = model('BorrowReturn');
         $toolModel = model("Tool");
+        $subscribeModel = model("Subscribe");
         $borrow_date = time();
         //date('Y-m-d H:i:s', 1492268952);//时间戳格式化
         $param = $request->param();
@@ -105,7 +106,7 @@ class Tool extends Common
         $n = 002;
         $map['borrow_no'] = $borrow_no1 . $request->param('uJn') . $n;
         $map['u_name'] = $request->param('uName');
-        //var_dump($map);exit();
+//        var_dump($map);exit();
         $dataMain = $borrowModel->save($map);
         if (!$dataMain) {
             resultArray(['error' => '插入数据失败咯！！']);
@@ -121,8 +122,14 @@ class Tool extends Common
             $list[] = ['u_jn' => $map['u_jn'], 'borrow_barcode' => $borrowBarcodes[$i], 'is_return' => $map['is_return'], 'borrow_date' => $map['borrow_date'], 'borrow_no' => $map['borrow_no'], 'u_name' => $map['u_name'], 'borrow_admin' => $map['borrow_admin']];
             $res = $toolModel->where('tl_barcode', $borrowBarcodes[$i])
                 ->find();
-            $result = $toolModel->where('tl_id', $res['tl_id'])->update(['tl_status' => '0']);
+            $result = $toolModel->where('tl_id', $res['tl_id'])->update(['tl_status' => '0', 'tl_issubscribe' => 0]);
             //return $res;
+            //更改tl_subscribe表中的status值
+            $ress = $subscribeModel->where('borrow_barcode', $borrowBarcodes[$i])
+                ->where('status','=',1)
+                ->find();
+            //echo $subscribeModel->getLastSql();exit();
+            $resultSub = $subscribeModel->where('id', $ress['id'])->update(['status' => 0]);
         }
         //return $updatelists;
         $data = $borrowReturnModel->saveAll($list, false);
@@ -131,6 +138,7 @@ class Tool extends Common
             resultArray(['error' => '插不进去哟！']);
         }
         return resultArray(['data' => $map['borrow_no']]);
+        //return resultArray(['data'=>$resultSub]);
         //echo $borrowModel->getLastsql();
     }
 
@@ -158,7 +166,7 @@ class Tool extends Common
                 return resultArray(['error' => '插入主表tool失败']);
             }
             $result = $borrowReturnModel->where('borrow_barcode', $map['borrow_barcode'])
-                ->update(['is_return' => '1', 'return_admin' => 999,'return_ujn'=>$map['return_ujn'],'return_date'=>$date]);
+                ->update(['is_return' => '1', 'return_admin' => 999, 'return_ujn' => $map['return_ujn'], 'return_date' => $date]);
 //            return $borrowReturnModel->getLastSql();
 //            return $result;exit();
             if (!$result) {
